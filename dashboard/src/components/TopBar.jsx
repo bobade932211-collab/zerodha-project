@@ -1,7 +1,5 @@
 import React from "react";
 
-import Menu from "./Menu";
-
 const TopBar = () => {
   return (
     <div className="topbar-container">
@@ -17,8 +15,6 @@ const TopBar = () => {
           <p className="percent up">+0.22%</p>
         </div>
       </div>
-
-      <Menu />
     </div>
   );
 };

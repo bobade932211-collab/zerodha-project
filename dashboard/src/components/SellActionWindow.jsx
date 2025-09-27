@@ -1,26 +1,37 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-
-import axios from "axios";
-
+import { usePortfolio } from "./PortfolioContext";
 import GeneralContext from "./GeneralContext";
-
 import "./BnSActionWindow.css";
 
 const SellActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
+  const { sellStock, getHoldingsByName } = usePortfolio();
   const generalContext = useContext(GeneralContext);
 
-  const handleSellClick = () => {
-    axios.post("http://localhost:3002/sellStock", {
-      name: uid,
-      qty: stockQuantity,
-      price: stockPrice,
-      mode: "Sell",
-    });
+  // Get available quantity for this stock
+  const availableHoldings = getHoldingsByName(uid);
+  const availableQty = availableHoldings.reduce((total, holding) => total + holding.qty, 0);
 
-    generalContext.closeSellWindow();
+  const handleSellClick = () => {
+    if (stockQuantity > 0 && stockPrice > 0) {
+      if (stockQuantity <= availableQty) {
+        // Use portfolio context instead of API call
+        sellStock({
+          name: uid,
+          qty: parseInt(stockQuantity),
+          price: parseFloat(stockPrice),
+          mode: "SELL"
+        });
+        
+        generalContext.closeSellWindow();
+      } else {
+        alert(`You only have ${availableQty} shares available to sell`);
+      }
+    } else {
+      alert("Please enter valid quantity and price");
+    }
   };
 
   const handleCancelClick = ()=>{

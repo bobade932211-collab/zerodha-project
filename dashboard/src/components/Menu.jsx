@@ -8,6 +8,7 @@ const Menu = () => {
 
   const handleMenuClick = (index) => {
     setSelectedMenu(index);
+    console.log('Menu clicked:', index);
   };
 
   const handleProfileClick = () => {

@@ -1,39 +1,23 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { VerticalGraph } from "./VerticalGraph";
+import { usePortfolio } from "./PortfolioContext";
 import './holding.css'
 
-// import { holdings } from "../data/data";
-
 const Holdings = () => {
-  const [allHoldings, setAllHoldings] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { portfolioHoldings, getTotalHoldingsValue, getTotalInvestment, getTotalPnL } = usePortfolio();
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    axios.get("http://localhost:3002/allholdings")
-      .then((res) => {
-        // console.log(res.data);
-        setAllHoldings(res.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching holdings:", error);
-        // Set empty array as fallback
-        setAllHoldings([]);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
-  const labels = allHoldings.map((subArray) => subArray["name"]);
+  // Ensure allHoldings is an array before mapping
+  const safeHoldings = Array.isArray(portfolioHoldings) ? portfolioHoldings : [];
+  
+  const labels = safeHoldings.map((subArray) => subArray["name"]);
 
   const data = {
     labels,
     datasets: [
       {
         label: "Stock Price",
-        data: allHoldings.map((stock) => stock.price),
+        data: safeHoldings.map((stock) => stock.price),
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
@@ -54,10 +38,10 @@ const Holdings = () => {
 
   return (
     <>
-      <h3 className="title">Holdings ({allHoldings.length})</h3>
+      <h3 className="title">Holdings ({safeHoldings.length})</h3>
 
       <div className="order-table">
-        {allHoldings.length === 0 ? (
+        {safeHoldings.length === 0 ? (
           <div style={{ padding: '20px', textAlign: 'center', color: '#6c757d' }}>
             No holdings found. Please add some holdings to see them here.
           </div>
@@ -76,7 +60,7 @@ const Holdings = () => {
               </tr>
             </thead>
             <tbody>
-              {allHoldings.map((stock, index) => {
+              {safeHoldings.map((stock, index) => {
                 const curValue = stock.price * stock.qty;
                 const isProfit = curValue - stock.avg * stock.qty >= 0.0;
                 const profClass = isProfit ? "profit" : "loss";
@@ -106,18 +90,20 @@ const Holdings = () => {
       <div className="row mt-5 mb-3">
         <div className="col">
           <h5>
-            29,875.<span>55</span>{" "}
+            {getTotalInvestment().toFixed(2)}
           </h5>
           <p>Total investment</p>
         </div>
         <div className="col">
           <h5>
-            31,428.<span>95</span>{" "}
+            {getTotalHoldingsValue().toFixed(2)}
           </h5>
           <p>Current value</p>
         </div>
         <div className="col">
-          <h5>1,553.40 (+5.20%)</h5>
+          <h5 className={getTotalPnL() >= 0 ? "profit" : "loss"}>
+            {getTotalPnL().toFixed(2)} ({((getTotalPnL() / getTotalInvestment()) * 100).toFixed(2)}%)
+          </h5>
           <p>P&L</p>
         </div>
       </div>

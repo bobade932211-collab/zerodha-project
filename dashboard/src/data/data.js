@@ -53,6 +53,24 @@ export const watchlist = [
     percent: "1.04%",
     isDown: false,
   },
+  {
+    name: "HDFCBANK",
+    price: 1522.35,
+    percent: "0.11%",
+    isDown: false,
+  },
+  {
+    name: "BHARTIARTL",
+    price: 541.15,
+    percent: "2.99%",
+    isDown: false,
+  },
+  {
+    name: "ITC",
+    price: 207.9,
+    percent: "0.80%",
+    isDown: false,
+  },
 ];
 
 // holdings
@@ -190,4 +208,140 @@ export const positions = [
     day: "-1.35%",
     isLoss: true,
   },
+  {
+    product: "MIS",
+    name: "NIFTY",
+    qty: 1,
+    avg: 18500.0,
+    price: 18650.0,
+    net: "+0.81%",
+    day: "+0.25%",
+    isLoss: false,
+  },
+  {
+    product: "CNC",
+    name: "TATAMOTORS",
+    qty: 3,
+    avg: 450.0,
+    price: 465.0,
+    net: "+3.33%",
+    day: "+1.20%",
+    isLoss: false,
+  },
+];
+
+// orders
+export const orders = [
+  {
+    id: "ORD001",
+    instrument: "RELIANCE",
+    type: "BUY",
+    qty: 2,
+    price: 2100.0,
+    status: "COMPLETE",
+    time: "10:30 AM",
+    date: "2024-01-15"
+  },
+  {
+    id: "ORD002", 
+    instrument: "TCS",
+    type: "SELL",
+    qty: 1,
+    price: 3200.0,
+    status: "COMPLETE",
+    time: "11:45 AM",
+    date: "2024-01-15"
+  },
+  {
+    id: "ORD003",
+    instrument: "INFY",
+    type: "BUY",
+    qty: 5,
+    price: 1560.0,
+    status: "PENDING",
+    time: "02:15 PM",
+    date: "2024-01-15"
+  },
+  {
+    id: "ORD004",
+    instrument: "HDFCBANK",
+    type: "BUY",
+    qty: 3,
+    price: 1500.0,
+    status: "COMPLETE",
+    time: "09:20 AM",
+    date: "2024-01-14"
+  },
+  {
+    id: "ORD005",
+    instrument: "WIPRO",
+    type: "SELL",
+    qty: 2,
+    price: 580.0,
+    status: "CANCELLED",
+    time: "03:30 PM",
+    date: "2024-01-14"
+  }
+];
+
+// funds data
+export const fundsData = {
+  equity: {
+    availableMargin: 4043.10,
+    usedMargin: 3757.30,
+    availableCash: 4043.10,
+    openingBalance: 4043.10,
+    closingBalance: 3736.40,
+    payin: 4064.00,
+    span: 0.00,
+    deliveryMargin: 0.00,
+    exposure: 0.00,
+    optionsPremium: 0.00,
+    collateralLiquid: 0.00,
+    collateralEquity: 0.00,
+    totalCollateral: 0.00
+  },
+  commodity: {
+    hasAccount: false,
+    message: "You don't have a commodity account"
+  }
+};
+
+// apps data
+export const appsData = [
+  {
+    name: "Kite",
+    description: "Trading platform",
+    icon: "📈",
+    status: "Active",
+    lastUsed: "2 hours ago"
+  },
+  {
+    name: "Coin",
+    description: "Mutual fund investing",
+    icon: "💰",
+    status: "Active", 
+    lastUsed: "1 day ago"
+  },
+  {
+    name: "Varsity",
+    description: "Educational content",
+    icon: "📚",
+    status: "Available",
+    lastUsed: "Never"
+  },
+  {
+    name: "Smallcase",
+    description: "Thematic investing",
+    icon: "🎯",
+    status: "Available",
+    lastUsed: "Never"
+  },
+  {
+    name: "Streak",
+    description: "Algo trading",
+    icon: "⚡",
+    status: "Available",
+    lastUsed: "Never"
+  }
 ];

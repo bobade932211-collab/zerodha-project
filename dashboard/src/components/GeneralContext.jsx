@@ -8,6 +8,9 @@ const GeneralContext = React.createContext({
   closeBuyWindow: () => {},
   openSellWindow: (uid) => {},
   closeSellWindow: () => {},
+  isBuyWindowOpen: false,
+  isSellWindowOpen: false,
+  selectedStockUID: "",
 });
 
 export const GeneralContextProvider = (props) => {
@@ -42,6 +45,9 @@ export const GeneralContextProvider = (props) => {
         closeBuyWindow: handleCloseBuyWindow,
         openSellWindow: handleOpenSellWindow,
         closeSellWindow: handleCloseSellWindow,
+        isBuyWindowOpen,
+        isSellWindowOpen,
+        selectedStockUID,
       }}
     >
       {props.children}

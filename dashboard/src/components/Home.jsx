@@ -9,11 +9,7 @@ const Home = () => {
     <div className="home-container">
       <TopBar />
       <Routes>
-         <Route path="/" element={<Dashboard />} />
-         
-        <Route path="/dashboard/*" element={<Dashboard />} />
-        
-
+        <Route path="/*" element={<Dashboard />} />
       </Routes>
     </div>
   );

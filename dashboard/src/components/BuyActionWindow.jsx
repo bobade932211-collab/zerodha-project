@@ -1,29 +1,33 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-
-import axios from "axios";
-
+import { usePortfolio } from "./PortfolioContext";
 import GeneralContext from "./GeneralContext";
-
 import "./BnSActionWindow.css";
 
 const BuyActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
+  const { buyStock } = usePortfolio();
+  const generalContext = useContext(GeneralContext);
 
   const handleBuyClick = () => {
-    axios.post("http://localhost:3002/newOrder", {
-      name: uid,
-      qty: stockQuantity,
-      price: stockPrice,
-      mode: "BUY",
-    });
-
-    GeneralContext.closeBuyWindow();
+    if (stockQuantity > 0 && stockPrice > 0) {
+      // Use portfolio context instead of API call
+      buyStock({
+        name: uid,
+        qty: parseInt(stockQuantity),
+        price: parseFloat(stockPrice),
+        mode: "BUY"
+      });
+      
+      generalContext.closeBuyWindow();
+    } else {
+      alert("Please enter valid quantity and price");
+    }
   };
 
   const handleCancelClick = () => {
-    GeneralContext.closeBuyWindow();
+    generalContext.closeBuyWindow();
   };
 
   return (

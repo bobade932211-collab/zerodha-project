@@ -16,8 +16,11 @@ const PORT = process.env.PORT|| 3002 ;
 const uri = process.env.MONGO_URL ;
 
 app.use(cors({
-  origin : ["http://localhost:5173"],
-  methods : ["GET", "POST", "PUT", "DELETE"],
+  origin : [
+    "http://localhost:5173", // frontend app
+    "http://localhost:5174", // dashboard app
+  ],
+  methods : ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials : true,
 })) ;
 app.use(bodyParser.json()) ;
@@ -26,6 +29,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", authRoute);
+
+// Expose a GET endpoint for cookie verification used by the dashboard
+app.get("/verify-user", (req, res) => {
+  return require("./Middleware/AuthMiddleware").userVerification(req, res);
+});
 
 app.get("/allholdings" ,userVerification, async(req,res)=>{
     let allHoldings = await HoldingModel.find({}) ;
